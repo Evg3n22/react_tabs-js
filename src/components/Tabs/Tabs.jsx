@@ -1,6 +1,14 @@
 import classNames from 'classnames';
 
 export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
+  const isActiveIdValid = tabs.some(t => t.id === activeTabId);
+
+  if (!isActiveIdValid) {
+    onTabSelected(tabs[0].id);
+  }
+
+  const idToShow = isActiveIdValid ? activeTabId : tabs[0].id;
+
   return (
     <div data-cy="TabsComponent">
       <div className="tabs is-boxed">
@@ -8,15 +16,14 @@ export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
           {tabs.map(tab => (
             <li
               key={tab.id}
-              className={classNames({ 'is-active': activeTabId === tab.id })}
+              className={classNames({ 'is-active': idToShow === tab.id })}
               data-cy="Tab"
-              id={tab.id}
             >
               <a
                 href={`#${tab.id}`}
                 data-cy="TabLink"
                 onClick={() => {
-                  if (activeTabId !== tab.id) {
+                  if (idToShow !== tab.id) {
                     onTabSelected(tab.id);
                   }
                 }}
@@ -47,7 +54,7 @@ export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
       </div>
 
       <div className="block" data-cy="TabContent">
-        {tabs.find(tab => tab.id === activeTabId)?.content}
+        {tabs.find(tab => tab.id === idToShow)?.content}
       </div>
     </div>
   );

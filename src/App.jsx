@@ -14,12 +14,6 @@ export const tabs = [
 export const App = () => {
   const [activeTabId, onTabSelected] = useState(tabs[0].id);
 
-  const isActiveIdValid = tabs.some(t => t.id === activeTabId);
-
-  if (!isActiveIdValid) {
-    onTabSelected(tabs[0].id);
-  }
-
   return (
     <div className="section">
       <h1 className="title">{`Selected tab is ${tabs.find(tab => tab.id === activeTabId)?.title}`}</h1>
